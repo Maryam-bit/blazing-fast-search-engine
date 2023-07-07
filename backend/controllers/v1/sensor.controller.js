@@ -43,7 +43,7 @@ exports.dataRange = async (req, res, next) => {
     const {startTime, endTime} = req.query;
 
     const query = `from(bucket: "${config.influxdb.INFLUX_BUCKET}")
-    |> range(start: ${startTime}, stop: ${endTime})
+    |> range(start: ${startTime})
     |> filter(fn: (r) => r._measurement == "${config.influxdb.INFLUX_MEASUREMENT}")`
 
     queryClient.collectRows(query).then((results) =>{
