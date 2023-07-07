@@ -17,4 +17,7 @@ router.get("/alldata/:limit?", sensorController.getAllData);
 //GET all data between timestamps
 router.post("/duration-data/", validator(sensorSchema.duration_data) ,sensorController.durationData);
 
+// GET all data between startTime and endTime (Query params)
+router.get("/data/range", sensorController.dataRange);
+
 module.exports = router;
