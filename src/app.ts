@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes";
 import httpStatus from "http-status";
-const ApiError = require('./utils/ApiError');
+import ApiError from "./utils/ApiError";
 
 const app = express();
 

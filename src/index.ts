@@ -1,5 +1,8 @@
 import app from './app';
 import { config } from './config/config';
+import './db/postgres'
+
+
 const port = process.env.PORT;
 
 app.listen(port, () => {
