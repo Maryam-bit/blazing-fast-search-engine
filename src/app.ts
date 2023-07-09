@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.options("*", cors());
 
-app.use("api/v1", routes);
+app.use("/api", routes);
 
 // send back a 404 error for any unknown request
 app.use((req, res, next) => {

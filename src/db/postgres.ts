@@ -17,14 +17,6 @@ const sequelize = new Sequelize.Sequelize(
     }
 )
 
-// export const pool = new Pool({
-//     host: config.postgres[env].host,
-//     port: config.postgres[env].port,
-//     user: config.postgres[env].user,
-//     password: config.postgres[env].password,
-//     database: config.postgres[env].database
-// })
-
 const testDbConnection = async () => {
     try {
         await sequelize.authenticate();
