@@ -7,13 +7,13 @@ const env: Environment = config.env as Environment;
 
 
 const sequelize = new Sequelize.Sequelize(
-    config.postgres[env].database,
-    config.postgres[env].user,
-    config.postgres[env].password,
+    config.postgres.database,
+    config.postgres.user,
+    config.postgres.password,
     {
-        dialect: config.postgres[env].dialect as Dialect,
-        host: config.postgres[env].host,
-        port: config.postgres[env].port,
+        dialect: config.postgres.dialect as Dialect,
+        host: config.postgres.host,
+        port: config.postgres.port,
     }
 )
 
