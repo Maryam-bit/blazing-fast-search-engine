@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    depends_on:
+      - mysqldb
+      - influxdb
+    build: ./backend
+    env_file: ./.env
+    ports:
+      - 3000:3000
+    environment:
+      - MYSQL_HOST_DEV=mysqldb
+      - INFLUX_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+      - MYSQL_PORT=3306
+      - INFLUXDB_HOST=http://influxdb
+
+  mysqldb:
+    image: mysql:8.0.33
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MY_SQL_PASS
+      - MYSQL_DATABASE=$MY_SQL_DATABASE
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+
+  influxdb:
+    image: influxdb:2.0
+    env_file: ./.env
+    ports:
+      - 8086:8086
+    volumes:
+      - ./data:/var/lib/influxdb2
+      - ./config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=$DOCKER_INFLUXDB_INIT_USERNAME
+      - DOCKER_INFLUXDB_INIT_PASSWORD=$DOCKER_INFLUXDB_INIT_PASSWORD
+      - DOCKER_INFLUXDB_INIT_ORG=$DOCKER_INFLUXDB_INIT_ORG
+      - DOCKER_INFLUXDB_INIT_BUCKET=$DOCKER_INFLUXDB_INIT_BUCKET
+      - DOCKER_INFLUXDB_INIT_RETENTION=$DOCKER_INFLUXDB_INIT_RETENTION
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+
+volumes:
+  db:
