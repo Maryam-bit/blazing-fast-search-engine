@@ -3,7 +3,7 @@
         <div class="relative h-12 flex justify-end items-center px-3 gap-4 bg-transparent z-50">
             <select className="select select-sm select-bordered max-w-xs" data-choose-theme>
                 <option selected :value="light">light</option>
-                <option v-for="theme in themes" :value="theme">{{theme}}</option>
+                <option v-for="theme in themes" :value="theme" :key="theme">{{theme}}</option>
             </select>
             <svg width="24px" height="24px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" class="hover:scale-125 transition-all cursor-pointer">
