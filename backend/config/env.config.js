@@ -21,6 +21,7 @@ const config = {
             password: process.env.MYSQL_PASSWORD_DEV || "root",
             database: process.env.MYSQL_DATABASE_DEV || "database_development",
             host: process.env.MYSQL_HOST_DEV || "127.0.0.1",
+            port: process.env.MYSQL_PORT || 3306,
             dialect: "mysql"
         }
     },
@@ -45,6 +46,7 @@ const config = {
             password: process.env.MYSQL_PASSWORD_TEST || "root",
             database: process.env.MYSQL_DATABASE_TEST || "database_test",
             host: process.env.MYSQL_HOST_TEST || "127.0.0.1",
+            port: process.env.MYSQL_PORT || 3306,
             dialect: "mysql"
         }
     },
