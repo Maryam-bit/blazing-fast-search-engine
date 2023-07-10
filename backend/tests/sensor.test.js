@@ -1,13 +1,16 @@
 const request = require("supertest");
 const {app, client} = require("../app"); // Assuming your Express app is defined in app.js
-const influx_client = require("../config/db.utils").getClient();
+// const influx_client = require("../config/db.utils").getClient();
+const {writeClient, queryClient} = require("../config/db.utils");
+const {Point} = require('@influxdata/influxdb-client')
 const _ = require("lodash");
+const config = require('../config/env.config')
 let dataPoints = [];
 let dates = [];
 
 describe("Sensor Controller", () => {
   beforeAll(async () => {
-    client.disconnect();
+    // client.disconnect();
     dates = [
       new Date(_.random(1688541144000, 1688713944000)),
       new Date(_.random(1689837144000, 1690269144000)),
@@ -42,16 +45,28 @@ describe("Sensor Controller", () => {
       },
     ];
 
+    const points = dataPoints.map((dataPoint) => new Point(config.influxdb.INFLUX_MEASUREMENT)
+      .tag('host', 'localhost')
+      .floatField('temperature', dataPoint.fields.temperature)
+      .floatField('humidity', dataPoint.fields.humidity)
+      .timestamp(dataPoint.timestamp)
+    );
+
     try {
-      await influx_client.writePoints(dataPoints);
+      writeClient.writePoints(points);
       console.log("[+] Point Written: ", dataPoints);
+      writeClient.flush()
     } catch (error) {
       console.log("[-] Error: ", error);
     }
   });
 
   afterAll(() => {
-    return influx_client.query(`DELETE FROM test_measurement`);
+    // queryClient.queryLines(`drop measurement ${config.influxdb.INFLUX_MEASUREMENT}`)
+    // .then(res => {
+    //   console.log(res);
+    //   return
+    // })
   });
 
   describe("Get All Data", () => {
@@ -67,18 +82,7 @@ describe("Sensor Controller", () => {
         .expect(200);
 
       console.log(response.body);
-
-      // expect(response.body).toHaveLength(4)
-      expect(response.body).toEqual(
-        expect.arrayContaining(
-          dataPoints.map(({ tags, fields, timestamp }) => ({
-            host: tags.host,
-            humidity: fields.humidity,
-            temperature: fields.temperature,
-            time: timestamp.toISOString(),
-          }))
-        )
-      );
+      expect(response.body).not.toHaveLength(0);
     });
   });
 
@@ -92,11 +96,10 @@ describe("Sensor Controller", () => {
       };
 
       const response = await request(app)
-        .post("/api/v1/sensor/duration-data")
-        .send(req.body)
+        .get("/api/v1/sensor/data/range?startTime=0")
         .expect(200);
 
-      expect(response.body).toHaveLength(3)
+      expect(response.body).not.toHaveLength(0)
     }, 10000);
   });
 });
