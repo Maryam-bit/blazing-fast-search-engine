@@ -47,9 +47,9 @@ mqttClient.on("message", async (topic, message, packet) => {
       .floatField('temperature', temperature)
       .floatField('humidity', humidity)
 
-      writeClient.writePoint(point)
+      await writeClient.writePoint(point)
       console.debug("[+] Point Written: ", point);
-      writeClient.flush()
+      await writeClient.flush()
     } catch (error) {
         console.debug("[-] Error: ", error);
     }
