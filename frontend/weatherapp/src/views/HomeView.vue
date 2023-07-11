@@ -42,7 +42,7 @@
 
           <div class="w-full h-full transform rotate-y" v-else>
             <div
-              class="flex flex-col bg-base-100/90 rounded-lg w-full h-full border-base-300 border-[1px] shadow-[5px_2px_0px_rgba(0,0,0,0.9)]">
+              class="flex flex-col bg-base-100/90 rounded-lg w-full h-full border-base-300 border-[1px] shadow-[5px_2px_0px_theme('colors.primary')]">
               <div class="flex justify-between px-5 py-5 w-full lg:h-64">
                 <div class="flex flex-col gap-1 justify-center">
                   <p class="text-5xl">{{ weather_data.data.current_weather.temperature }}&deg;</p>
