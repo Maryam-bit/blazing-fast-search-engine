@@ -123,30 +123,7 @@
     </BaseModal>
 
     <AuthModal :modal-active="auth_modal" @close-modal="toggleAuthModal">
-      <div class="h-full flex flex-col items-center py-4">
-        <div class="flex flex-col w-full gap-5 items-center">
-          <p class="text-3xl font-thin">LOGIN</p>
-
-          <div class="h-full w-full flex flex-col gap-5 justify-center items-center">
-            <input type="text" placeholder="Email" className="input input-bordered input-primary w-full max-w-xs input-sm" />
-            <input type="text" placeholder="Password" className="input input-bordered input-primary w-full max-w-xs input-sm" />
-            <button className="btn btn-primary lg:btn-wide">Login</button>
-          </div>
-        </div>
-
-        <div className="divider mt-8">OR</div>
-
-        <div class="flex flex-col w-full gap-5 items-center">
-          <p class="text-3xl font-thin">SIGN-UP</p>
-
-          <div class="h-full w-full flex flex-col gap-5 justify-center items-center">
-            <input type="text" placeholder="Username" className="input input-bordered input-primary w-full max-w-xs input-sm" />
-            <input type="text" placeholder="Email" className="input input-bordered input-primary w-full max-w-xs input-sm" />
-            <input type="text" placeholder="Password" className="input input-bordered input-primary w-full max-w-xs input-sm" />
-            <button className="btn btn-primary lg:btn-wide">Signup</button>
-          </div>
-        </div>
-      </div>
+      <AuthForm />
     </AuthModal>
   </navWrapper>
 </template>
@@ -155,7 +132,9 @@
 import navWrapper from '../components/navWrapper.vue'
 import BaseModal from '../components/BaseModal.vue'
 import AuthModal from '../components/authModal.vue'
-import { ref, onMounted, computed } from 'vue'
+import AuthForm from '../components/authForm.vue'
+import { ref, onMounted, computed, watch } from 'vue'
+
 import moment from 'moment'
 import axios from 'axios'
 
