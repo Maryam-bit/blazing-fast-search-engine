@@ -5,7 +5,7 @@
                 <Transition name="modal-inner">
                     <div v-if="modalActive" class="p-4 bg-white self-start lg:mt-32 mt-10 max-w-screen-md">
                         <slot />
-                        <button @click="$emit('close-modal')" class="text-white mt-8 bg-primary py-2 px-6">Close</button>
+                        <button @click="$emit('close-modal')" class="text-secondary-content mt-8 bg-secondary py-2 px-6">Close</button>
                     </div>
                 </Transition>
             </div>
