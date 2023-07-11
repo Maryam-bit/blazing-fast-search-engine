@@ -2,7 +2,7 @@
   <navWrapper>
     <section
       class="absolute top-0 w-full bg-[url(https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)] bg-cover bg-center bg-no-repeat">
-      <div class="absolute inset-0 bg-white/75">
+      <div class="absolute inset-0 bg-base-100/75">
       </div>
 
       <div
@@ -22,25 +22,27 @@
           </p>
 
           <div class="mt-8 flex flex-wrap gap-4 text-center justify-center">
-            <a
-              class="btn btn-primary block w-full rounded px-12 py-3 text-sm font-medium text-white shadow focus:outline-none sm:w-auto">
+            <a @click="toggleAuthModal"
+              class="btn btn-primary text-primary-content block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none sm:w-auto">
               Get Started
             </a>
 
             <a @click="toggleModal"
-              class="btn btn-secondary block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none focus:ring sm:w-auto">
+              class="btn btn-secondary text-secondary-content block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none focus:ring sm:w-auto">
               Learn More
             </a>
           </div>
         </div>
-        <div class="flex lg:w-[400px] h-2/3">
+
+        <!-- Weather Widget -->
+        <div class="flex lg:w-[400px] h-2/3 perspective">
           <div v-if="loading" class="spinner justify-center items-center flex w-full">
             <span className="loading loading-spinner text-primary"></span>
           </div>
 
-          <div class="w-full h-full" v-else>
+          <div class="w-full h-full transform rotate-y" v-else>
             <div
-              class="flex flex-col bg-base-100 rounded-lg w-full h-full border-gray-400 border-[1px] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]">
+              class="flex flex-col bg-base-100/90 rounded-lg w-full h-full border-base-300 border-[1px] shadow-[5px_2px_0px_rgba(0,0,0,0.9)]">
               <div class="flex justify-between px-5 py-5 w-full lg:h-64">
                 <div class="flex flex-col gap-1 justify-center">
                   <p class="text-5xl">{{ weather_data.data.current_weather.temperature }}&deg;</p>
@@ -68,8 +70,7 @@
                       <div class="flex gap-1 items-center">
                         <svg fill="#000000" width="9px" viewBox="0 -5 32 50" version="1.1"
                           xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            fill-opacity="0.7"
+                          <path class="fill-base-content" fill-opacity="0.7"
                             d="M15.95 31.959c-6.041 0-10.956-4.848-10.956-10.806 0-6.959 9.739-20.151 10.153-20.71 0.188-0.252 0.482-0.402 0.796-0.404 0.349-0.003 0.611 0.144 0.802 0.393 0.419 0.548 10.261 13.507 10.261 20.721 0 5.959-4.96 10.806-11.056 10.806zM15.961 2.74c-2.325 3.302-8.967 13.189-8.967 18.413 0 4.855 4.018 8.806 8.956 8.806 4.993 0 9.056-3.95 9.056-8.806 0-5.418-6.692-15.157-9.045-18.413z">
                           </path>
                         </svg>
@@ -88,7 +89,7 @@
       </div>
     </section>
 
-    <BaseModal :modal-active="modalActive" @close-modal="toggleModal">
+    <BaseModal :modal-active="learn_more_modal" @close-modal="toggleModal">
       <div class="text-black">
         <h1 class="text-2xl mb-1">About:</h1>
         <p class="mb-4">
@@ -120,12 +121,40 @@
         </p>
       </div>
     </BaseModal>
+
+    <AuthModal :modal-active="auth_modal" @close-modal="toggleAuthModal">
+      <div class="h-full flex flex-col items-center py-4">
+        <div class="flex flex-col w-full gap-5 items-center">
+          <p class="text-3xl font-thin">LOGIN</p>
+
+          <div class="h-full w-full flex flex-col gap-5 justify-center items-center">
+            <input type="text" placeholder="Email" className="input input-bordered input-primary w-full max-w-xs input-sm" />
+            <input type="text" placeholder="Password" className="input input-bordered input-primary w-full max-w-xs input-sm" />
+            <button className="btn btn-primary lg:btn-wide">Login</button>
+          </div>
+        </div>
+
+        <div className="divider mt-8">OR</div>
+
+        <div class="flex flex-col w-full gap-5 items-center">
+          <p class="text-3xl font-thin">SIGN-UP</p>
+
+          <div class="h-full w-full flex flex-col gap-5 justify-center items-center">
+            <input type="text" placeholder="Username" className="input input-bordered input-primary w-full max-w-xs input-sm" />
+            <input type="text" placeholder="Email" className="input input-bordered input-primary w-full max-w-xs input-sm" />
+            <input type="text" placeholder="Password" className="input input-bordered input-primary w-full max-w-xs input-sm" />
+            <button className="btn btn-primary lg:btn-wide">Signup</button>
+          </div>
+        </div>
+      </div>
+    </AuthModal>
   </navWrapper>
 </template>
 
 <script setup>
 import navWrapper from '../components/navWrapper.vue'
 import BaseModal from '../components/BaseModal.vue'
+import AuthModal from '../components/authModal.vue'
 import { ref, onMounted, computed } from 'vue'
 import moment from 'moment'
 import axios from 'axios'
@@ -274,10 +303,12 @@ const weather_codes = {
 };
 
 const loading = ref(true);
-const modalActive = ref(false)
+const learn_more_modal = ref(false)
+const auth_modal = ref(true)
 const weather_data = ref({})
 
-const toggleModal = () => modalActive.value = !modalActive.value
+const toggleModal = () => learn_more_modal.value = !learn_more_modal.value
+const toggleAuthModal = () => auth_modal.value = !auth_modal.value
 let coords = ref({})
 
 onMounted(async () => {
