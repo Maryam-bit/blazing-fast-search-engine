@@ -10,6 +10,7 @@ const apiService = axios.create({
 
 export const getCoords = async () => {
     try {
+        console.log('Getting coordinates')
         return await axios.get('http://ip-api.com/json')
     } catch (error) {
         console.log(error);
