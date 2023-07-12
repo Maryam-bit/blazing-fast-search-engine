@@ -133,6 +133,7 @@ import navWrapper from '../components/navWrapper.vue'
 import BaseModal from '../components/BaseModal.vue'
 import AuthModal from '../components/authModal.vue'
 import AuthForm from '../components/authForm.vue'
+import { getCoords, getWeather } from '../services/apiService'
 import { ref, onMounted, computed, watch } from 'vue'
 
 import moment from 'moment'
@@ -283,7 +284,7 @@ const weather_codes = {
 
 const loading = ref(true);
 const learn_more_modal = ref(false)
-const auth_modal = ref(true)
+const auth_modal = ref(false)
 const weather_data = ref({})
 
 const toggleModal = () => learn_more_modal.value = !learn_more_modal.value
@@ -291,7 +292,7 @@ const toggleAuthModal = () => auth_modal.value = !auth_modal.value
 let coords = ref({})
 
 onMounted(async () => {
-  coords.value = await axios.get('http://ip-api.com/json')
+  coords.value = await getCoords()
   let { lat, lon } = coords.value.data
 
   coords = {
@@ -301,7 +302,7 @@ onMounted(async () => {
   console.log(coords)
 
   // Weather: open-meteo
-  weather_data.value = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto&current_weather=true`)
+  weather_data.value = await getWeather(coords.lat, coords.lon)
   console.log(weather_data.value.data)
   loading.value = false
 })
