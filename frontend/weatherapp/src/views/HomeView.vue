@@ -7,7 +7,7 @@
 
       <div
         class="relative lg:mx-32 px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center justify-between lg:px-8 h-screen gap-10">
-        <div class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right lg:mb-0 mb-10">
+        <div v-if="$route.path === '/'" class="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right lg:mb-0 mb-10">
           <h1 class="text-3xl font-extrabold sm:text-5xl">
             Your very own
 
@@ -22,10 +22,11 @@
           </p>
 
           <div class="mt-8 flex flex-wrap gap-4 text-center justify-center">
-            <a @click="toggleAuthModal"
-              class="btn btn-primary text-primary-content block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none sm:w-auto">
-              Get Started
-            </a>
+            <router-link to="/login">
+              <a class="btn btn-primary text-primary-content block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none sm:w-auto">
+                Get Started
+              </a>
+            </router-link>
 
             <a @click="toggleModal"
               class="btn btn-secondary text-secondary-content block w-full rounded px-12 py-3 text-sm font-medium shadow focus:outline-none focus:ring sm:w-auto">
@@ -34,11 +35,9 @@
           </div>
         </div>
 
-        <div v-if="$route.path === '/'">
-          <button>Get Started</button>
-        </div>
-
-        <div v-else-if="$route.path === '/login'">
+        <!-- <button @click="notify">Notify !</button> -->
+        
+        <div v-if="$route.path === '/login'">
           <LoginForm />
         </div>
 
@@ -47,7 +46,9 @@
         </div>
 
         <!-- Weather widget -->
-        <WeatherWidget />
+        <div class="flex h-full items-center">
+          <WeatherWidget />
+        </div>
       </div>
     </section>
 
@@ -84,9 +85,6 @@
       </div>
     </BaseModal>
 
-    <AuthModal :modal-active="auth_modal" @close-modal="toggleAuthModal">
-      <AuthForm />
-    </AuthModal>
   </navWrapper>
 </template>
 
@@ -102,6 +100,14 @@ import { useRoute } from 'vue-router'
 import LoginForm from '../components/LoginForm.vue'
 import SignupForm from '../components/SignupForm.vue'
 
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
+const notify = () => {
+  toast("Wow so easy !", {
+    autoClose: 10000,
+  }); // ToastOptions
+}
 
 const learn_more_modal = ref(false)
 const auth_modal = ref(false)
