@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full flex flex-col items-center py-4 bg-base-100 px-4 rounded-md shadow-md shadow-primary transition-opacity duration-300">
+    <div class="h-[400px] flex flex-col items-center py-4 bg-base-100 px-4 rounded-md shadow-md shadow-primary transition-opacity duration-300">
         <div class="flex flex-col w-full gap-8 items-center">
             <p class="text-3xl font-thin">LOGIN</p>
             <form @submit.prevent="onLoginSubmit">
@@ -39,8 +39,8 @@
 import { reactive } from 'vue';
 import * as Yup from 'yup';
 import { debounce } from 'lodash';
-import { userLogin } from '../services/apiService'
-import toastMessage from '../utils/toasts'
+import { userLogin } from '@/services/apiService'
+import toastMessage from '@/utils/toasts'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

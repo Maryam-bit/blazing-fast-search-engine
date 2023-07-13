@@ -34,8 +34,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import { themeChange } from 'theme-change'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import toastMessage from '@/utils/toasts'
 
 const themes = [
     "dark",
@@ -73,11 +74,13 @@ onMounted(() => {
 })
 
 const token = ref(localStorage.getItem('jwt'))
-const showLogoutModal = ref(false)
+const router = useRouter();
 
 const logout = () => {
     localStorage.removeItem('jwt')
+    toastMessage("Logged out", "success")
     token.value = null
+    router.push("/")
 }
 
 

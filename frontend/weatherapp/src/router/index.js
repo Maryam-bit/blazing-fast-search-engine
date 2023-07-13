@@ -45,7 +45,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
       let user = await userProfile();
-      console.log("🚀 ~ file: index.js:46 ~ router.beforeEach ~ user:", user)
       if (user.status === 200) {
         // User is authenticated, allow navigation to the requested route
         next();

@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full flex flex-col items-center py-4 bg-base-100 px-4 rounded-md shadow-xl">
+    <div class="h-[400px] flex flex-col items-center py-4 bg-base-100 px-4 rounded-md shadow-md shadow-primary transition-opacity duration-300">
         <div class="flex flex-col w-full gap-8 items-center">
             <p class="text-3xl font-thin">SIGN-UP</p>
             <form @submit.prevent="onSignupSubmit">
@@ -47,8 +47,8 @@
 import { reactive } from 'vue';
 import * as Yup from 'yup';
 import { debounce } from 'lodash';
-import toastMessage from '../utils/toasts'
-import { userRegister } from '../services/apiService'
+import toastMessage from '@/utils/toasts'
+import { userRegister } from '@/services/apiService'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -122,7 +122,6 @@ const onSignupSubmit = () => {
             // if unsuccessful, show error message as toast
             try {
                 const resp = await userRegister(signup.username, signup.email, signup.password)
-                console.log("🚀 ~ file: SignupForm.vue:122 ~ .then ~ resp:", resp)
                 if(resp.status == 201){
                     toastMessage("success", "success")
                     console.log(resp)

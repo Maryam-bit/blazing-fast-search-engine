@@ -1,7 +1,7 @@
 <template>
   <navWrapper>
     <section
-      class="absolute top-0 w-full bg-[url(https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)] bg-cover bg-center bg-no-repeat">
+      class="absolute top-0 w-full bg-[url(@/assets/imagebg.png)] bg-cover bg-center bg-no-repeat">
       <div class="absolute inset-0 bg-base-100/75">
       </div>
 
@@ -34,8 +34,6 @@
             </a>
           </div>
         </div>
-
-        <!-- <button @click="notify">Notify !</button> -->
         
         <div v-if="$route.path === '/login'">
           <LoginForm />
@@ -89,30 +87,18 @@
 </template>
 
 <script setup>
-import navWrapper from '../components/navWrapper.vue'
-import BaseModal from '../components/BaseModal.vue'
-import AuthModal from '../components/authModal.vue'
-import AuthForm from '../components/authForm.vue'
-import WeatherWidget from '../components/WeatherWidget.vue'
-import { ref, onMounted, computed, watch } from 'vue'
+import navWrapper from '@/components/navWrapper.vue'
+import BaseModal from '@/components/BaseModal.vue'
+import WeatherWidget from '@/components/WeatherWidget.vue'
+import { ref} from 'vue'
 
-import { useRoute } from 'vue-router'
-import LoginForm from '../components/LoginForm.vue'
-import SignupForm from '../components/SignupForm.vue'
+import LoginForm from '@/components/LoginForm.vue'
+import SignupForm from '@/components/SignupForm.vue'
 
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-
-const notify = () => {
-  toast("Wow so easy !", {
-    autoClose: 10000,
-  }); // ToastOptions
-}
 
 const learn_more_modal = ref(false)
 const auth_modal = ref(false)
 
 const toggleModal = () => learn_more_modal.value = !learn_more_modal.value
-const toggleAuthModal = () => auth_modal.value = !auth_modal.value
 
 </script>

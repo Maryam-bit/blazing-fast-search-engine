@@ -32,19 +32,6 @@ export const getWeather = async (lat, lon) => {
 
 // User Authentication Service
 
-// export const userLogin = async (email, password) => {
-//   try {
-//     return await apiService.post("/user/login", { email, password });
-//   } catch (error) {
-//     console.log("🚀 ~ file: apiService.js:39 ~ userLogin ~ error:", error)
-//     if (error.response && error.response.data && error.response.data.error) {
-//       throw new Error(error.response.data.error);
-//     } else if (error.response.data.error) {
-//       throw new Error(error.response.data.error.details[0].message);
-//     }
-//   }
-// };
-
 export const userLogin = async (email, password) => {
   try {
     return await apiService.post("/user/login", { email, password });
@@ -80,6 +67,28 @@ export const userProfile = async () => {
         throw (error)
     }
 }
+
+// Sensor data service
+
+export const getSensorData = async (limit=10) => {
+  try {
+    return await apiService.get("/sensor/alldata?limit="+limit);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting sensor data");
+  }
+};
+
+export const getRangedData = async (start="0", end) => {
+  try {
+    return await apiService.get(`/sensor/data/range?startTime=-${start}&endTime=-${end}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+// Error handling
 
 const createError = (error) => {
     if(error.request.status == 403) {

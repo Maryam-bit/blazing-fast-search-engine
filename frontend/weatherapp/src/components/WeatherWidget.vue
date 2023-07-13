@@ -1,6 +1,6 @@
 <template>
     <!-- Weather Widget -->
-    <div class="flex lg:w-[400px] h-1/2 perspective">
+    <div class="flex lg:w-[500px] h-1/2 perspective">
         <div v-if="loading" class="spinner justify-center items-center flex w-full">
             <span className="loading loading-spinner text-primary"></span>
         </div>
@@ -54,7 +54,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { getCoords, getWeather } from '../services/apiService';
+import { getCoords, getWeather } from '@/services/apiService';
 import moment from 'moment';
 
 const CACHE_KEY = 'weather_data';
@@ -228,7 +228,6 @@ onMounted(async () => {
 
         // Weather: open-meteo
         weather_data.value = await getWeather(coords.lat, coords.lon)
-        console.log(weather_data.value.data)
         loading.value = false
         saveWeatherData()
     }
@@ -247,7 +246,6 @@ const current_weather = computed(() => {
         const imgCode = is_day ? weather_codes[weathercode].img_code_day : weather_codes[weathercode].img_code_night;
         const desc = weather_codes[weathercode].desc
         const formatTime = moment(time).format('MMMM Do YYYY, h:mm a')
-        console.log(formatTime)
         return { url: `https://openweathermap.org/img/wn/${imgCode}@4x.png`, description: desc, time: formatTime };
     }
 })
