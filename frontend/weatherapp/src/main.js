@@ -6,6 +6,8 @@ import router from './router'
 import Vue3Toasity from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
+import VueApexCharts from "vue3-apexcharts";
+
 const ToastContainerOptions = {
     position: "top-center",
     autoClose: 1000,
@@ -16,6 +18,7 @@ const ToastContainerOptions = {
 };
 
 const app = createApp(App)
+app.use(VueApexCharts);
 app.use(Vue3Toasity, ToastContainerOptions);
 app.use(router)
 
