@@ -1,15 +1,20 @@
 require('dotenv').config()
-const db = require("./model");
-const app = require('./app');
+const db = require("./models");
+const {app} = require('./app');
+const config = require('./config/env.config')
 
-const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
+const port = config.port;
+let server = "";
+server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
 db.sequelize.sync()
   .then(() => {
     console.log("Synced db.");
+    // server = app.listen(port, () => {
+    //   console.log(`App running on port ${port}...`);
+    // });
   })
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
@@ -21,4 +26,14 @@ process.on('SIGTERM', () => {
   server.close(() => {
     console.log('[-] Server closed');
   });
+});
+
+process.on('uncaughtException', function(err) {
+  console.log(err)
+  process.exit(1);
+})
+
+process.on('unhandledRejection', function(err) {
+  console.log(err);
+  process.exit(1);
 });
