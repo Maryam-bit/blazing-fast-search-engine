@@ -2,9 +2,10 @@ const mqtt = require('mqtt');
 const config = require('./env.config');
 
 let client;
-// Another free public broker server address: mqtt://test.mosquitto.org/
+let connectionString = config.mqtt.protocol + config.mqtt.host + ":" + config.mqtt.port;
+
 function connect() {
-  client = mqtt.connect('mqtt://broker.hivemq.com');
+  client = mqtt.connect(connectionString);
 
   client.on('connect', () => {
     client.subscribe(config.influxdb.TOPIC, { qos: 2 }, (err, granted) => {
