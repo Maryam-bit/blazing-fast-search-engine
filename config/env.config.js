@@ -37,7 +37,7 @@ const config = {
             TOPIC: process.env.TOPIC_TEST || "Weather_Data",
             INFLUX_PORT: process.env.INFLUXDB_PORT || 8086,
             INFLUX_ORG: process.env.INFLUX_ORG || "Cowlar",
-            INFLUX_BUCKET: process.env.INFLUX_BUCKET_TEST || "weather_test",
+            INFLUX_BUCKET: process.env.INFLUX_BUCKET_TEST || "weather_data",
             INFLUX_TOKEN: process.env.INFLUX_TOKEN,
             INFLUX_MEASUREMENT: process.env.INFLUX_MEASUREMENT_TEST || "test_measurement"
         },

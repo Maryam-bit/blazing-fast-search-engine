@@ -1,2 +1,1 @@
-# weather-station
-Weather Station App.
+# Weather App Backend

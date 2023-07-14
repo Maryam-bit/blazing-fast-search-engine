@@ -5,6 +5,7 @@ const {writeClient, queryClient} = require("../config/db.utils");
 const {Point} = require('@influxdata/influxdb-client')
 const _ = require("lodash");
 const config = require('../config/env.config')
+const moment = require('moment');
 let dataPoints = [];
 let dates = [];
 
@@ -12,10 +13,10 @@ describe("Sensor Controller", () => {
   beforeAll(async () => {
     // client.disconnect();
     dates = [
-      new Date(_.random(1688541144000, 1688713944000)),
-      new Date(_.random(1689837144000, 1690269144000)),
-      new Date(_.random(1690355544000, 1690614744000)),
-      new Date(_.random(1690960344000, 1692515544000)),
+      new Date(_.random(moment().add(1,'hour'), moment().add(2,'hour'))),
+      new Date(_.random(moment().add(3,'hour'), moment().add(4,'hour'))),
+      new Date(_.random(moment().add(5,'hour'), moment().add(6,'hour'))),
+      new Date(_.random(moment().add(7,'hour'), moment().add(8,'hour'))),
     ];
 
     dataPoints = [
@@ -49,13 +50,13 @@ describe("Sensor Controller", () => {
       .tag('host', 'localhost')
       .floatField('temperature', dataPoint.fields.temperature)
       .floatField('humidity', dataPoint.fields.humidity)
-      .timestamp(dataPoint.timestamp)
+      // .timestamp(dataPoint.timestamp)
     );
 
     try {
-      writeClient.writePoints(points);
+      await writeClient.writePoints(points);
       console.log("[+] Point Written: ", dataPoints);
-      writeClient.flush()
+      await writeClient.flush()
     } catch (error) {
       console.log("[-] Error: ", error);
     }
