@@ -3,9 +3,9 @@ from random import randrange, uniform
 import time
 import json
 
-mqttBroker = "broker.hivemq.com"
+mqttBroker = "127.0.0.1"
 client = mqtt.Client("Test1")
-client.connect(mqttBroker)
+client.connect(mqttBroker, port=1883)
 
 while True:
     randTemp = uniform(19.0, 45.0)
