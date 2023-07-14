@@ -9,16 +9,16 @@ server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
-require("./config/initDb");
+// require("./config/initDb");
 
-db.sequelize
-  .sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
+// db.sequelize
+//   .sync()
+//   .then(() => {
+//     console.log("Synced db.");
+//   })
+//   .catch((err) => {
+//     console.log("Failed to sync db: " + err.message);
+// });
 
 // Shut down the server when the process is terminated
 process.on("SIGTERM", () => {

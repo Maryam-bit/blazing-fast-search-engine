@@ -6,6 +6,7 @@ const {writeClient} = require("./config/db.utils");
 const client = require('./config/mqtt.utils')
 const config = require('./config/env.config')
 const {Point} = require('@influxdata/influxdb-client')
+const db = require('./models')
 require("dotenv").config();
 
 client.connect();
@@ -16,6 +17,17 @@ var UserApiRouterV1 = require("./routes/v1/user_api");
 var SensorApiRouterV1 = require("./routes/v1/sensor_api");
 
 var app = express();
+
+require("./config/initDb");
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+});
 
 const corsOptions = {
   origin: "http://localhost:5173",
