@@ -2,6 +2,7 @@ const mqtt = require('mqtt');
 const config = require('./env.config');
 
 let client;
+console.log("🚀 ~ file: mqtt.utils.js:6 ~ config.mqtt:", config.mqtt)
 let connectionString = config.mqtt.protocol + config.mqtt.host + ":" + config.mqtt.port;
 
 function connect() {
