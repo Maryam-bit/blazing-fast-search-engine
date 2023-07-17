@@ -31,7 +31,7 @@ stages:
   - test
 
 variables:
-  MYSQL_HOST_DEV: mysqldb
+  MYSQL_HOST_TEST: mysqldb
   INFLUX_TOKEN: 1lhcUUm4pjfdfdtyghgdhghgf-7qTxR0GT38dDIdskKxG6cprYcvsuClzqPbl_BWoN_I-DOtB3LpAl7D2czj367w==
   MYSQL_PORT: 3306
   INFLUXDB_HOST: http://influxdb
