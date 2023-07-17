@@ -23,6 +23,11 @@ const config = {
             host: process.env.MYSQL_HOST_DEV || "127.0.0.1",
             port: process.env.MYSQL_PORT || 3306,
             dialect: "mysql"
+        },
+        mqtt: {
+            protocol: process.env.MQTT_PROTOCOL || "mqtt://",
+            host: process.env.MQTT_HOST_DEV || "127.0.0.1",
+            port: process.env.MQTT_PORT_DEV || 1883,
         }
     },
     test: {
@@ -48,6 +53,11 @@ const config = {
             host: process.env.MYSQL_HOST_TEST || "127.0.0.1",
             port: process.env.MYSQL_PORT || 3306,
             dialect: "mysql"
+        },
+        mqtt: {
+            protocol: process.env.MQTT_PROTOCOL || "mqtt://",
+            host: process.env.MQTT_HOST_DEV || "127.0.0.1",
+            port: process.env.MQTT_PORT_DEV || 1883,
         }
     },
     production: {

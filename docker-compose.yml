@@ -14,6 +14,8 @@ services:
       - INFLUX_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
       - MYSQL_PORT=3306
       - INFLUXDB_HOST=http://influxdb
+      - MQTT_HOST_DEV=mqtt
+      - INFLUXDB_PORT=8086
 
   mysqldb:
     image: mysql:8.0.33
@@ -43,6 +45,16 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET_2=$DOCKER_INFLUXDB_INIT_BUCKET_2
       - DOCKER_INFLUXDB_INIT_RETENTION=$DOCKER_INFLUXDB_INIT_RETENTION
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+
+  mqtt:
+    image: vernemq/vernemq
+    ports:
+      - 1883:1883
+      - 8888:8888
+      - 8080:8080
+    environment:
+      - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
 
 volumes:
   db:
