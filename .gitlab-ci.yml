@@ -19,6 +19,10 @@ test_backend:
     DOCKER_INFLUXDB_INIT_BUCKET: weather_data
     DOCKER_INFLUXDB_INIT_RETENTION: 1w
     DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: 1lhcUUm4pjfdfdtyghgdhghgf-7qTxR0GT38dDIdskKxG6cprYcvsuClzqPbl_BWoN_I-DOtB3LpAl7D2czj367w==
+    NODE_ENV: development
+    SECRET: secret
+    INFLUXDB_HOST: influxdb
+
   script:
     - npm install
     - npm run test
