@@ -1,0 +1,26 @@
+stages:
+  - test
+
+test_backend:
+  stage: test
+  image: node:latest
+  services:
+    - name: mysql:8.0.33
+      alias: mysqldb
+    - name: influxdb:2.0
+      alias: influxdb
+  variables:
+    MYSQL_ROOT_PASSWORD: $MY_SQL_PASS
+    MYSQL_DATABASE: $MY_SQL_DATABASE
+    DOCKER_INFLUXDB_INIT_MODE: setup
+    DOCKER_INFLUXDB_INIT_USERNAME: $DOCKER_INFLUXDB_INIT_USERNAME
+    DOCKER_INFLUXDB_INIT_PASSWORD: $DOCKER_INFLUXDB_INIT_PASSWORD
+    DOCKER_INFLUXDB_INIT_ORG: $DOCKER_INFLUXDB_INIT_ORG
+    DOCKER_INFLUXDB_INIT_BUCKET: $DOCKER_INFLUXDB_INIT_BUCKET
+    DOCKER_INFLUXDB_INIT_RETENTION: $DOCKER_INFLUXDB_INIT_RETENTION
+    DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: $DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+  script:
+    - npm install
+    - npm run test
+  only:
+    - master
