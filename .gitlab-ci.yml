@@ -6,10 +6,11 @@ test_backend:
   image: node:latest
   services:
     - name: mysql:8.0.33
-      alias: mysqldb
+      alias: mysql
     - name: influxdb:2.0
       alias: influxdb
   variables:
+    MYSQL_HOST_TEST: mysql
     MYSQL_ROOT_PASSWORD: root
     MYSQL_DATABASE: database_test
     DOCKER_INFLUXDB_INIT_MODE: setup
@@ -20,7 +21,8 @@ test_backend:
     DOCKER_INFLUXDB_INIT_RETENTION: 1w
     DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: 1lhcUUm4pjfdfdtyghgdhghgf-7qTxR0GT38dDIdskKxG6cprYcvsuClzqPbl_BWoN_I-DOtB3LpAl7D2czj367w==
     NODE_ENV: development
-    INFLUXDB_HOST: http://localhost:8086
+    INFLUXDB_HOST: influxdb
+    INFLUXDB_PORT: 8086
   script:
     - npm install
     - npm run test
