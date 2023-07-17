@@ -2,9 +2,11 @@ import paho.mqtt.client as mqtt
 from random import randrange, uniform
 import time
 import json
+import uuid
 
+client_id = "mqtt-client-" + str(uuid.uuid4())
 mqttBroker = "127.0.0.1"
-client = mqtt.Client("Test1")
+client = mqtt.Client(client_id)
 client.connect(mqttBroker, port=1883)
 
 while True:
