@@ -35,6 +35,7 @@ variables:
   INFLUX_TOKEN: 1lhcUUm4pjfdfdtyghgdhghgf-7qTxR0GT38dDIdskKxG6cprYcvsuClzqPbl_BWoN_I-DOtB3LpAl7D2czj367w==
   MYSQL_PORT: 3306
   INFLUXDB_HOST: http://influxdb
+  INFLUXDB_PORT: 8086
 
 services:
   - name: mysql:8.0.33
