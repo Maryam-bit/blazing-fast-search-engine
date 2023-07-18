@@ -2,21 +2,19 @@ var express = require("express");
 var logger = require("morgan");
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
-const {writeClient} = require("./config/db.utils");
 const client = require('./config/mqtt.utils')
 const config = require('./config/env.config')
-const {Point} = require('@influxdata/influxdb-client')
 const db = require('./models')
+const mqttLog = require('./services/mqttMessageLog')
 require("dotenv").config();
-
-client.connect();
-mqttClient = client.getClient()
 
 // importing the router
 var UserApiRouterV1 = require("./routes/v1/user_api");
 var SensorApiRouterV1 = require("./routes/v1/sensor_api");
 
 var app = express();
+
+mqttClient = client.client
 
 require("./config/initDb");
 
@@ -30,7 +28,7 @@ db.sequelize
 });
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: config.origin_url,
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE", "PATCH"],
   optionsSuccessStatus: 200,
   credentials: true,
@@ -46,29 +44,22 @@ mqttClient.on("message", async (topic, message, packet) => {
   if (packet.retain === true) {
     return;
   }
-  if (topic === config.influxdb.TOPIC) {
+  if (topic === config.mqtt.TOPIC) {
     const payload = JSON.parse(message);
     const temperature = payload.temperature;
     const humidity = payload.humidity;
-    console.debug("Temperature:", temperature);
-    console.debug("Humidity:", humidity);
 
     try {
-      let point = new Point(config.influxdb.INFLUX_MEASUREMENT)
-      .tag('host', 'localhost')
-      .floatField('temperature', temperature)
-      .floatField('humidity', humidity)
-
-      await writeClient.writePoint(point)
-      console.debug("[+] Point Written: ", point);
-      await writeClient.flush()
+      await mqttLog.insertIntoDB(temperature, humidity);
     } catch (error) {
-        console.debug("[-] Error: ", error);
+      console.debug("[-] Error: ", error);
     }
   }
 });
 
-//calling the routers
+mqttClient.on('close', () => console.log('disconnected', new Date()));
+mqttClient.on('error', err => console.error('error', err));
+
 app.use("/api/v1/user", UserApiRouterV1);
 app.use("/api/v1/sensor", SensorApiRouterV1);
 
