@@ -50,7 +50,7 @@ describe("POST /api/v1/user/register", () => {
     // Assertion
     expect(createUserMock).toHaveBeenCalledTimes(1);
     expect(response.status).toBe(201);
-    expect(response.body).toEqual(reqBody);
+    expect(response.body.msg).toEqual("User registered successfully")
   });
 
   it("should return an error if user or email already exists", async () => {
@@ -71,7 +71,7 @@ describe("POST /api/v1/user/register", () => {
 
     // Assertion
     expect(response.status).toBe(400);
-    expect(response.body).toEqual({ error: "User or email already exists" });
+    expect(response.body).toEqual({ error: "User or email already exists", email: reqBody.email, user_name: reqBody.user_name });
   });
 });
 
@@ -107,7 +107,7 @@ describe('Login', () => {
     // Assertion
     expect(createUserMock).toHaveBeenCalledTimes(2);
     expect(response.status).toBe(201);
-    expect(response.body).toEqual(reqBody);
+    expect(response.body.msg).toEqual("User registered successfully");
   });
 
   it('should return a token when valid credentials are provided', async () => {
