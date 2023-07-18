@@ -1,21 +1,22 @@
 version: '3.8'
 
 services:
-  backend:
-    depends_on:
-      - mysqldb
-      - influxdb
-    build: .
-    env_file: ./.env
-    ports:
-      - 3000:3000
-    environment:
-      - MYSQL_HOST_DEV=mysqldb
-      - INFLUX_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
-      - MYSQL_PORT=3306
-      - INFLUXDB_HOST=http://influxdb
-      - MQTT_HOST_DEV=mqtt
-      - INFLUXDB_PORT=8086
+  # backend:
+  #   depends_on:
+  #     - mysqldb
+  #     - influxdb
+  #     - mqtt
+  #   build: .
+  #   env_file: ./.env
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - MYSQL_HOST_DEV=mysqldb
+  #     - INFLUX_TOKEN=$DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+  #     - MYSQL_PORT=3306
+  #     - INFLUXDB_HOST=http://influxdb
+  #     - MQTT_HOST_DEV=mqtt
+  #     - INFLUXDB_PORT=8086
 
   mysqldb:
     image: mysql:8.0.33
