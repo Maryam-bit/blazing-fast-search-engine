@@ -72,7 +72,7 @@ exports.updateUser = async (req, res, next) => {
 exports.delUser = async (req, res, next) => {
   try {
     const { user_name="", email="" } = req.body;
-    const user = await userService.deleteUser(user_name, password);
+    const user = await userService.deleteUser(user_name, email);
     return res.status(200).json(user);
   } catch (error) {
     console.log("Error:", error);
