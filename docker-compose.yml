@@ -5,6 +5,7 @@ services:
     depends_on:
       - mysqldb
       - influxdb
+      - mqtt
     build: .
     env_file: ./.env
     ports:
