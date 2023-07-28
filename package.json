@@ -1,5 +1,5 @@
 {
-  "name": "weather-station-app",
+  "name": "blazing-fast-search-engine",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "db": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "db": "npx sequelize-cli db:migrate && npx sequelize-cli"
   },
   "keywords": [],
   "author": "",
