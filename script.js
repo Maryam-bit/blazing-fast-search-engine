@@ -6,6 +6,38 @@ const connectionString = 'postgres://root:secret@localhost:5432/postgres'; // Re
 
 const csvFilePath = 'books.csv'; // Replace with the actual path to your CSV file
 
+
+async function createTable() {
+  const client = new Client({
+    connectionString,
+  });
+
+  try {
+    await client.connect();
+
+    const query = `
+    CREATE TABLE IF NOT EXISTS books (
+      id SERIAL PRIMARY KEY,
+      isbn VARCHAR(13) UNIQUE NOT NULL,
+      book_title VARCHAR(255) NOT NULL,
+      book_author VARCHAR(255) NOT NULL,
+      year_of_publication INTEGER,
+      publisher VARCHAR(255) NOT NULL,
+      image_url_s VARCHAR(255) NOT NULL,
+      image_url_m VARCHAR(255) NOT NULL,
+      image_url_l VARCHAR(255) NOT NULL
+    );
+    `;
+
+    await client.query(query);
+    console.log('Table "books" created successfully.');
+  } catch (err) {
+    console.error('Error creating table:', err);
+  } finally {
+    client.end();
+  }
+}
+
 async function insertData() {
     const client = new Client({
       connectionString,
@@ -71,5 +103,9 @@ async function insertData() {
       console.error('Error inserting batch:', err);
     }
   }
-  
+
+// Create the 'books' table first
+createTable().then(() => {
+  // Once the table is created, insert the data
   insertData();
+});
