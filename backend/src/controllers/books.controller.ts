@@ -10,9 +10,11 @@ const pool = new Pool({
   password: "secret",
   port: 5432, // Default PostgreSQL port is 5432
 });
+
 export const getBooks = async (req: Request, res: Response) => {
-    try {
-        const query = `SELECT * from "Books"`
+try {
+        const searchKey = req.query.searchKey;
+        const query = `SELECT * from "Books" where book_author LIKE '${searchKey}%' OR book_title LIKE '${searchKey}%' OR publisher LIKE '${searchKey}%'`
 
         const { rows } = await pool.query(query);
         res.status(httpStatus.OK).json({ data: rows });
