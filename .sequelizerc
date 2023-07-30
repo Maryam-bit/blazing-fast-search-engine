@@ -4,4 +4,5 @@ module.exports = {
   'config': path.join(__dirname, 'dist', 'db', 'database.js'),
   'migrations-path': path.join(__dirname, 'dist', 'migrations'),
   'models-path': path.join(__dirname, 'dist', 'models'),
+  'seeders-path': path.join(__dirname, 'dist', 'seeders'),
 }
