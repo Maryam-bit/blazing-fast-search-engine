@@ -12,7 +12,7 @@ const pool = new Pool({
 });
 export const getBooks = async (req: Request, res: Response) => {
     try {
-        const query = `SELECT * from "Books" where book_author LIKE 'Ann%'`
+        const query = `SELECT * from "Books"`
 
         const { rows } = await pool.query(query);
         res.status(httpStatus.OK).json({ data: rows });
