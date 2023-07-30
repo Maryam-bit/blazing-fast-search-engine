@@ -44,7 +44,7 @@ const fetchBooks = async (searchKey: string) => {
 fetchBooks(searchQuery.value);
 
 // Debounce the fetchBooks function with 500ms delay
-const debouncedFetchBooks = debounce(fetchBooks, 4000);
+const debouncedFetchBooks = debounce(fetchBooks, 1500);
 
 // ============ Watcher ==============
 watch(searchQuery, (newValue, oldValue) => {
