@@ -52,8 +52,14 @@ module.exports = {
         defaultValue: Sequelize.fn('NOW')
       }
     });
+
+    // add indexes
+    await queryInterface.addIndex('Books', ['book_author']);
+    await queryInterface.addIndex('Books', ['book_title']);
   },
   async down(queryInterface: any, Sequelize: any) {
+    await queryInterface.removeIndex('Books', ['book_author']);
+    await queryInterface.removeIndex('Books', ['book_title']);
     await queryInterface.dropTable('Books');
   }
 };
