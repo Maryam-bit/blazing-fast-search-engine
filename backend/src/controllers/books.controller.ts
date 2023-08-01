@@ -14,7 +14,7 @@ const pool = new Pool({
 export const getBooks = async (req: Request, res: Response) => {
 try {
         const searchKey = req.query.searchKey;
-        const query = `SELECT * from "Books" where book_author LIKE '${searchKey}%' OR book_title LIKE '${searchKey}%' OR publisher LIKE '${searchKey}%'`
+        const query = `SELECT * from "Books" where book_author ILIKE '%${searchKey}%' OR book_title ILIKE '%${searchKey}%'`
 
         const { rows } = await pool.query(query);
         res.status(httpStatus.OK).json({ data: rows });
