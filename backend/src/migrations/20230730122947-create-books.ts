@@ -54,12 +54,15 @@ module.exports = {
     });
 
     // add indexes
-    await queryInterface.addIndex('Books', ['book_author']);
-    await queryInterface.addIndex('Books', ['book_title']);
+    await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS pg_trgm;');
+
+    // Create the trigram (case insensitive) index 
+    await queryInterface.sequelize.query('CREATE INDEX idx_books_author_trgm_unique ON "Books" USING gin (book_author gin_trgm_ops);');
+    await queryInterface.sequelize.query('CREATE INDEX idx_books_title_trgm_unique ON "Books" USING gin (book_title gin_trgm_ops);');
   },
   async down(queryInterface: any, Sequelize: any) {
-    await queryInterface.removeIndex('Books', ['book_author']);
-    await queryInterface.removeIndex('Books', ['book_title']);
+    await queryInterface.sequelize.query('DROP INDEX IF EXISTS idx_books_author_trgm_unique;');
+    await queryInterface.sequelize.query('DROP INDEX IF EXISTS idx_books_title_trgm_unique;');
     await queryInterface.dropTable('Books');
   }
 };

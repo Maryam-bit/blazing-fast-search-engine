@@ -64,16 +64,6 @@ export default (sequelize: Sequelize) => {
       modelName: 'Book',
       tableName: 'Books',
       underscored: true,
-      indexes: [
-        {
-          unique: false,
-          fields: ['book_author'],
-        },
-        {
-          unique: false,
-          fields: ['book_title'],
-        },
-      ]
     },
   );
   return Book;

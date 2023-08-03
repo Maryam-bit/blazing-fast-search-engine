@@ -3,16 +3,16 @@ const csvParser = require('csv-parser');
 const db = require('../db/index');
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface: any, Sequelize: any) => {
     let transaction;
     try {
       const csvFilePath = 'books.csv'; // Replace with the actual path to your CSV file
 
       const data = await new Promise((resolve, reject) => {
-        const dataArray = [];
+        const dataArray: any = [];
         fs.createReadStream(csvFilePath)
           .pipe(csvParser())
-          .on('data', (row) => {
+          .on('data', (row: { isbn: any; book_title: any; book_author: any; year_of_publication: string; publisher: any; image_url_s: any; image_url_m: any; image_url_l: any; }) => {
             dataArray.push({
               isbn: row.isbn,
               book_title: row.book_title,
@@ -27,7 +27,7 @@ module.exports = {
           .on('end', () => {
             resolve(dataArray);
           })
-          .on('error', (err) => {
+          .on('error', (err: any) => {
             reject(err);
           });
       });
@@ -51,7 +51,7 @@ module.exports = {
       console.error(`Error inserting data:`, err);
     }
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface: any, Sequelize: any) => {
     await queryInterface.bulkDelete('Books', null, {});
   },
 };
