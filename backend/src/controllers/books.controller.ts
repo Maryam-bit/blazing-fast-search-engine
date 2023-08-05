@@ -14,10 +14,24 @@ const pool = new Pool({
 export const getBooks = async (req: Request, res: Response) => {
 try {
         const searchKey = req.query.searchKey;
-        const query = `SELECT * from "Books" where book_author ILIKE '%${searchKey}%' OR book_title ILIKE '%${searchKey}%'`
+        const cursor = req.query.cursor || 0;
+        const limit = req.query.limit || 10;
+
+
+       // Base query string
+      let query = `SELECT * FROM "Books" WHERE`;
+
+      // Check if the searchKey exists and add the appropriate search condition
+      if (searchKey) {
+        query += ` (book_author ILIKE '%${searchKey}%' OR book_title ILIKE '%${searchKey}%') AND`;
+      }
+
+      // Add the cursor condition
+      query += ` id > ${cursor} ORDER BY id ASC LIMIT ${limit}`;
 
         const { rows } = await pool.query(query);
-        res.status(httpStatus.OK).json({ data: rows });
+        const nextCursor = rows.length > 0 ? rows[rows.length - 1].id : null;
+        res.status(httpStatus.OK).json({ data: rows, nextCursor });
     }
     catch (error) {
         console.log(error, 'ERROR EXECUTING SQL QUERY');
