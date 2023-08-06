@@ -1,19 +1,20 @@
 <template>
   <Suspense>
     <div class="p-4">
-      <h1 class="text-4xl font-bold">Blazing Fast Search Engine</h1>
-      <label for="search" class="block mt-4">Search</label>
+      <h1 class="text-4xl font-black tracking-wider">Blazing Fast Search Engine 🚀</h1>
+      <label for="search" class="block mt-4 text-slate-600">Search</label>
       <input
         type="text"
         v-model="searchQuery"
-        class="w-full p-2 border border-gray-300 rounded mt-1"
+        class="w-full p-2 px-4 border border-gray-300 rounded-full mt-1 placeholder:text-gray-300 focus:outline-0"
+        placeholder="Search book by title or author name"
       />
       <div v-if="!initialLoading" class="scrolling-component" ref="scrollComponent">
         <ul>
           <BookListItem v-for="book in books" :key="book.id" :book="book" />
         </ul>
       </div>
-      <BookListItemSkeleton v-for="item in 7" :key="item" v-if="loading || initialLoading" />
+      <BookListItemSkeleton v-for="item in 2" :key="item" v-if="loading || initialLoading" />
     </div>
   </Suspense>
 </template>

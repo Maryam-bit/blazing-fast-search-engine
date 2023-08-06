@@ -1,5 +1,7 @@
 <template>
-  <SearchEngine />
+  <div>
+    <SearchEngine />
+  </div>
 </template>
 
 <script setup lang="ts">
