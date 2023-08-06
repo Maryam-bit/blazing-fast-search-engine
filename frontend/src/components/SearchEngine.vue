@@ -33,39 +33,30 @@ const initialLoading = ref(false);
 const loading = ref(false);
 const cursor = ref(0);
 const limit = ref(10);
-const scrollComponent = ref(null);
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-})
+const scrollComponent = ref<HTMLElement | null>(null);
 
-onUnmounted(() => {
-  window.addEventListener("scroll", handleScroll)
-})
-
+// ============ Methods ==============
 const handleScroll = () => {
-  let element: any = scrollComponent.value;
-  if (!loading.value && element.getBoundingClientRect().bottom < window.innerHeight) {
-    loadMore()
+  const element = scrollComponent.value;
+  if (!loading.value && element && element.getBoundingClientRect().bottom < window.innerHeight) {
+    loadMore();
   }
-}
+};
 
 const loadMore = async () => {
   loading.value = true;
-  await fetchBooks({isInitialReq: false});
+  await fetchBooks({ isInitialReq: false });
   loading.value = false;
 };
 
-// ============ Methods ==============
 const fetchBooks = async ({
-    searchKey = "",
-    isInitialReq = true,
-    isSearching = false,
-}) => {
+  searchKey = "",
+  isInitialReq = true,
+  isSearching = false,
+}: { searchKey?: string; isInitialReq?: boolean; isSearching?: boolean }) => {
   try {
     if (isInitialReq) initialLoading.value = true;
-    const response = await axios({
-      method: "get",
-      url: "http://localhost:3000/api/books",
+    const response = await axios.get("http://localhost:3000/api/books", {
       params: {
         searchKey,
         cursor: cursor.value,
@@ -73,38 +64,43 @@ const fetchBooks = async ({
       },
     });
 
-    if(isSearching) {
-        books.value = response.data.data;
-    }
-    else {
-        books.value.push(...response.data.data);
+    if (isSearching) {
+      books.value = response.data.data;
+    } else {
+      books.value.push(...response.data.data);
     }
 
     cursor.value = response.data.nextCursor;
-    console.log(books.value, "books");
     initialLoading.value = false;
   } catch (error) {
     console.error(error);
     initialLoading.value = false;
   }
 };
-fetchBooks({searchKey: searchQuery.value});
 
 const debouncedFetchBooksWrapper = (searchKey: string) => {
   cursor.value = 0;
-  fetchBooks({searchKey: searchKey, isSearching: true});
+  fetchBooks({ searchKey, isSearching: true });
 };
 
-// Debounce the fetchBooks function with 500ms delay
+// Debounce the fetchBooks function with 1500ms delay
 const debouncedFetchBooks = debounce(debouncedFetchBooksWrapper, 1500);
 
+// ============ Lifecycle Hooks ==============
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+// created hook
+fetchBooks({ searchKey: searchQuery.value });
+
 // ============ Watcher ==============
-watch(searchQuery, (newValue, oldValue) => {
+watch(searchQuery, (newValue) => {
   debouncedFetchBooks(newValue);
   cursor.value = 0;
 });
 </script>
-
-<style>
-/* Add any specific styles for the main component here */
-</style>
