@@ -11,14 +11,16 @@
       />
       <h1 v-if="initialLoading" class="mt-4">Loading....</h1>
       <div v-else class="scrolling-component" ref="scrollComponent">
-        <ul class="mt-4">
+        <ul>
           <li v-for="book in books" :key="book.id" class="border-b border-gray-300 py-4">
             <h2 class="text-xl font-bold">{{ book.book_title }}</h2>
             <p class="text-gray-600">{{ book.book_author }}</p>
           </li>
         </ul>
       </div>
-      <Skeleton v-if="loading" />
+      <div v-for="item in 3" :key="item">
+        <Skeleton v-if="loading" />
+      </div>
     </div>
   </Suspense>
 </template>
