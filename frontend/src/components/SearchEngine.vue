@@ -1,8 +1,12 @@
 <template>
   <Suspense>
     <div class="p-4">
-      <p class="float-right">Total Records: <span class="font-medium">{{ count }}</span></p>
-      <h1 class="text-4xl font-black tracking-wider">Blazing Fast Search Engine 🚀</h1>
+      <p class="float-right">
+        Total Records: <span class="font-medium">{{ count }}</span>
+      </p>
+      <h1 class="text-4xl font-black tracking-wider">
+        Blazing Fast Search Engine 🚀
+      </h1>
       <label for="search" class="block mt-4 text-slate-600">Search</label>
       <input
         type="text"
@@ -10,12 +14,20 @@
         class="w-full p-2 px-4 border border-gray-300 rounded-full mt-1 placeholder:text-gray-400 focus:outline-0"
         placeholder="Search book by title or author name"
       />
-      <div v-if="!initialLoading" class="scrolling-component" ref="scrollComponent">
+      <div
+        v-if="!initialLoading"
+        class="scrolling-component"
+        ref="scrollComponent"
+      >
         <ul>
           <BookListItem v-for="book in books" :key="book.id" :book="book" />
         </ul>
       </div>
-      <BookListItemSkeleton v-for="item in 2" :key="item" v-if="loading || initialLoading" />
+      <BookListItemSkeleton
+        v-for="item in 2"
+        :key="item"
+        v-if="loading || initialLoading"
+      />
     </div>
   </Suspense>
 </template>
@@ -40,7 +52,11 @@ const count = ref(0);
 // ============ Methods ==============
 const handleScroll = () => {
   const element = scrollComponent.value;
-  if (!loading.value && element && element.getBoundingClientRect().bottom < window.innerHeight) {
+  if (
+    !loading.value &&
+    element &&
+    element.getBoundingClientRect().bottom < window.innerHeight
+  ) {
     loadMore();
   }
 };
@@ -55,10 +71,15 @@ const fetchBooks = async ({
   searchKey = "",
   isInitialReq = true,
   isSearching = false,
-}: { searchKey?: string; isInitialReq?: boolean; isSearching?: boolean }) => {
+}: {
+  searchKey?: string;
+  isInitialReq?: boolean;
+  isSearching?: boolean;
+}) => {
+  if (isInitialReq) initialLoading.value = true;
+
   try {
-    if (isInitialReq) initialLoading.value = true;
-    const response = await axios.get("http://localhost:3000/api/books", {
+    const { data } = await axios.get("http://localhost:3000/api/books", {
       params: {
         searchKey,
         cursor: cursor.value,
@@ -67,15 +88,14 @@ const fetchBooks = async ({
     });
 
     if (isSearching) {
-      books.value = response.data.data;
+      books.value = data.data;
     } else {
-      books.value.push(...response.data.data);
+      books.value.push(...data.data);
     }
 
-    cursor.value = response.data.nextCursor;
-    
-    if(response.data.count) 
-    count.value = response.data.count
+    cursor.value = data.nextCursor;
+
+    count.value = data.count ?? count.value; // Use optional chaining to handle undefined count
 
     initialLoading.value = false;
   } catch (error) {
