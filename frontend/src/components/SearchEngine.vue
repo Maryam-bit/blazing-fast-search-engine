@@ -8,13 +8,12 @@
         v-model="searchQuery"
         class="w-full p-2 border border-gray-300 rounded mt-1"
       />
-      <h1 v-if="initialLoading" class="mt-4">Loading....</h1>
-      <div v-else class="scrolling-component" ref="scrollComponent">
+      <div v-if="!initialLoading" class="scrolling-component" ref="scrollComponent">
         <ul>
           <BookListItem v-for="book in books" :key="book.id" :book="book" />
-          <BookListItemSkeleton v-for="item in 3" :key="item" v-if="loading" />
         </ul>
       </div>
+      <BookListItemSkeleton v-for="item in 7" :key="item" v-if="loading || initialLoading" />
     </div>
   </Suspense>
 </template>
@@ -84,7 +83,7 @@ const debouncedFetchBooksWrapper = (searchKey: string) => {
 };
 
 // Debounce the fetchBooks function with 1500ms delay
-const debouncedFetchBooks = debounce(debouncedFetchBooksWrapper, 1500);
+const debouncedFetchBooks = debounce(debouncedFetchBooksWrapper, 500);
 
 // ============ Lifecycle Hooks ==============
 onMounted(() => {
