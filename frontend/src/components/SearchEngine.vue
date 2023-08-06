@@ -1,12 +1,13 @@
 <template>
   <Suspense>
     <div class="p-4">
+      <p class="float-right">Total Records: <span class="font-medium">{{ count }}</span></p>
       <h1 class="text-4xl font-black tracking-wider">Blazing Fast Search Engine 🚀</h1>
       <label for="search" class="block mt-4 text-slate-600">Search</label>
       <input
         type="text"
         v-model="searchQuery"
-        class="w-full p-2 px-4 border border-gray-300 rounded-full mt-1 placeholder:text-gray-300 focus:outline-0"
+        class="w-full p-2 px-4 border border-gray-300 rounded-full mt-1 placeholder:text-gray-400 focus:outline-0"
         placeholder="Search book by title or author name"
       />
       <div v-if="!initialLoading" class="scrolling-component" ref="scrollComponent">
@@ -34,6 +35,7 @@ const loading = ref(false);
 const cursor = ref(0);
 const limit = ref(10);
 const scrollComponent = ref<HTMLElement | null>(null);
+const count = ref(0);
 
 // ============ Methods ==============
 const handleScroll = () => {
@@ -71,6 +73,10 @@ const fetchBooks = async ({
     }
 
     cursor.value = response.data.nextCursor;
+    
+    if(response.data.count) 
+    count.value = response.data.count
+
     initialLoading.value = false;
   } catch (error) {
     console.error(error);
