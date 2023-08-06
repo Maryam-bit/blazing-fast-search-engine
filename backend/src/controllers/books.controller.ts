@@ -26,9 +26,7 @@ export const getBooks = async (req: Request, res: Response) => {
     }
 
     // Add the cursor condition
-    query += ` id <= ${Number(cursor) + Number(limit)} ORDER BY id ASC LIMIT ${
-      Number(cursor) + Number(limit)
-    }`;
+    query += ` id > ${cursor} ORDER BY id ASC LIMIT ${limit}`;
 
     const { rows } = await pool.query(query);
     const nextCursor = rows.length > 0 ? rows[rows.length - 1].id : null;
