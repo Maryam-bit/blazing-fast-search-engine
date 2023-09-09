@@ -21,4 +21,4 @@ The Books Library project is a high-speed search engine designed to search a vas
 - Tailwind
 - Typescript
 
-The primary goal of this project is to deliver a blazing-fast and optimized search engine, allowing users to seamlessly explore the vast library of books.
+The primary goal of this project is to deliver a blazing fast and optimized search engine, allowing users to seamlessly explore the vast library of books.
