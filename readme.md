@@ -9,9 +9,13 @@ The Books Library project is a high-speed search engine designed to search a vas
 **Cursor-Based Pagination:** Implementing efficient pagination for enhanced user experience.
 
 ## Tools and Technologies
-Node.js
-Express.js
-PostgreSQL
-Vue.js
+- Node.js
+- Express.js
+- Sequelize
+- PostgreSQL
+- Vue.js
+- Vite
+- Tailwind
+- Typescript
 
 This project aims to provide a fast and optimized search engine for users to explore a vast library of books.
