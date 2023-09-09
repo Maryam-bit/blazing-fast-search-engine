@@ -1,26 +1,17 @@
-# Weather Station Application 🚀
+# Books Library 🚀
+## Project Description
+The Books Library project is a high-speed search engine designed to search a vast book library efficiently. This project includes the following components and steps:
 
-### Project Idea:
-Weather Data Aggregation and Visualization with MQTT
+## Components:
+**Data Collection:** Obtaining 5 million book records from various internet sources.
+**Backend Setup:** Using Node.js and Express.js to store the data in a PostgreSQL database and optimize queries with indexing.
+**Frontend Application:** Creating a user-friendly interface using Vue.js.
+**Cursor-Based Pagination:** Implementing efficient pagination for enhanced user experience.
 
-### Description:
-The goal of this project is to collect weather data from a public API using MQTT as a middle layer, store it in InfluxDB, and build a Vue.js frontend application to visualize and analyze the data.
+## Tools and Technologies
+Node.js
+Express.js
+PostgreSQL
+Vue.js
 
-### Components and Steps:
--  Get Data from Weather Data API
--  MQTT Broker Setup
--  Backend Setup 
-    - Implementation of MQTT client
-    - Fetch weather data from API
--  MQTT to influxDB integration
--  Vue.js frontend application
--  Weather data visualization
-
-### Tools and Technologies
-- NodeJS 
-- ExpressJS
-- MQTT
-- InfluxDB
-- PostgreSQL
-- Sequelize
-- VueJS
+This project aims to provide a fast and optimized search engine for users to explore a vast library of books.
